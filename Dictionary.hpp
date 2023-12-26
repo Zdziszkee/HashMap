@@ -20,6 +20,7 @@ private:
 public:
     /**
      * Constructor
+     * @size should be the power of 2, so we can use bitwise operator &
      */
     explicit Dictionary(size_t size);
 
