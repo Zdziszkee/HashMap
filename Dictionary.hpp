@@ -126,6 +126,19 @@ bool Dictionary<KEY, VALUE>::find(const KEY& key) {
     }
     return false;
 }
+template<class KEY, class VALUE>
+bool Dictionary<KEY, VALUE>::erase(const KEY& key) {
+    const auto index = hash(key) % bucket_array_size;
+    auto bucket = bucket_array[index];
+    for (auto element: bucket) {
+        auto first = element.first;
+        if (first == key) {
+            bucket.remove(element);
+            return true;
+        }
+    }
+    return false;
+}
 
 template<class KEY, class VALUE>
 VALUE& Dictionary<KEY, VALUE>::operator[](const KEY& key) {
