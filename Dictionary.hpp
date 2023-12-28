@@ -12,7 +12,7 @@
 template<class KEY, class VALUE>
 class Dictionary {
 private:
-    LinkedList<VALUE>* bucket_array{};
+    LinkedList<std::pair<KEY, VALUE>>* bucket_array{};
     size_t bucket_array_size{};
 
 public:
@@ -81,13 +81,24 @@ bool Dictionary<KEY, VALUE>::insert(const std::pair<KEY, VALUE>& pair) {
     const auto value = pair.second;
     const auto index = hash(key) % bucket_array_size;
     auto bucket = bucket_array[index];
+    if(find(key)) {
+        return false;
+    }
+    bucket.push_back(pair);
+    return true;
+}
+
+template<class KEY, class VALUE>
+bool Dictionary<KEY, VALUE>::find(const KEY& key) {
+    const auto index = hash(key) % bucket_array_size;
+    auto bucket = bucket_array[index];
     for (auto element: bucket) {
-        if (element == value) {
-            return false;
+        auto first = element.first;
+        if (first == key) {
+            return true;
         }
     }
-    bucket.push_back(value);
-    return true;
+    return false;
 }
 
 template<class KEY, class VALUE>
