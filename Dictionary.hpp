@@ -4,7 +4,8 @@
 
 #ifndef DICTIONARY_HPP
 #define DICTIONARY_HPP
-#include <utility>
+
+#include <iostream>
 
 #include "Hash.hpp"
 #include "LinkedList.hpp"
@@ -69,6 +70,29 @@ public:
      */
     void buckets();
 };
+
+template<class KEY, class VALUE>
+void Dictionary<KEY, VALUE>::buckets() {
+    std::cout << "#";
+    std::cout << " " << number_of_elements;
+    std::cout << " " << bucket_array_size;
+    int shortest = bucket_array[0].size();
+    for (int i = 1; i < bucket_array_size; ++i) {
+        auto bucket_size = bucket_array[i].size();
+        if (bucket_size < shortest) {
+            shortest = bucket_size;
+        }
+    }
+    std::cout << " " << shortest;
+    int longest = bucket_array[0].size();
+    for (int i = 1; i < bucket_array_size; ++i) {
+        auto bucket_size = bucket_array[i].size();
+        if (bucket_size > longest) {
+            longest = bucket_size;
+        }
+    }
+    std::cout << " " << longest << std::endl;
+}
 
 template<class KEY, class VALUE>
 Dictionary<KEY, VALUE>::Dictionary(size_t size) {
