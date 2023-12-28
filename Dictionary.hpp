@@ -6,6 +6,7 @@
 #define DICTIONARY_HPP
 #include <utility>
 
+#include "Hash.hpp"
 #include "LinkedList.hpp"
 
 template<class KEY, class VALUE>
@@ -72,6 +73,21 @@ template<class KEY, class VALUE>
 Dictionary<KEY, VALUE>::Dictionary(size_t size) {
     this->bucket_array_size = size;
     this->bucket_array = new LinkedList<VALUE>[size]{new LinkedList<VALUE>()};
+}
+
+template<class KEY, class VALUE>
+bool Dictionary<KEY, VALUE>::insert(const std::pair<KEY, VALUE>& pair) {
+    const auto key = pair.first;
+    const auto value = pair.second;
+    const auto index = hash(key) % bucket_array_size;
+    auto bucket = bucket_array[index];
+    for (auto element: bucket) {
+        if (element == value) {
+            return false;
+        }
+    }
+    bucket.push_back(value);
+    return true;
 }
 
 template<class KEY, class VALUE>
