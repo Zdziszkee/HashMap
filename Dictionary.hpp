@@ -81,7 +81,7 @@ bool Dictionary<KEY, VALUE>::insert(const std::pair<KEY, VALUE>& pair) {
     const auto value = pair.second;
     const auto index = hash(key) % bucket_array_size;
     auto bucket = bucket_array[index];
-    if(find(key)) {
+    if (find(key)) {
         return false;
     }
     bucket.push_back(pair);
@@ -99,6 +99,19 @@ bool Dictionary<KEY, VALUE>::find(const KEY& key) {
         }
     }
     return false;
+}
+
+template<class KEY, class VALUE>
+VALUE& Dictionary<KEY, VALUE>::operator[](const KEY& key) {
+    const auto index = hash(key) % bucket_array_size;
+    auto bucket = bucket_array[index];
+    for (auto element: bucket) {
+        auto first = element.first;
+        if (first == key) {
+            return element.second;
+        }
+    }
+    return nullptr;
 }
 
 template<class KEY, class VALUE>
