@@ -14,6 +14,7 @@ class Dictionary {
 private:
     LinkedList<std::pair<KEY, VALUE>>* bucket_array{};
     size_t bucket_array_size{};
+    size_t number_of_elements{};
 
 public:
     /**
@@ -85,6 +86,7 @@ bool Dictionary<KEY, VALUE>::insert(const std::pair<KEY, VALUE>& pair) {
         return false;
     }
     bucket.push_back(pair);
+    number_of_elements++;
     return true;
 }
 
@@ -115,10 +117,22 @@ VALUE& Dictionary<KEY, VALUE>::operator[](const KEY& key) {
 }
 
 template<class KEY, class VALUE>
+bool Dictionary<KEY, VALUE>::empty() {
+    return number_of_elements == 0;
+}
+
+template<class KEY, class VALUE>
+int Dictionary<KEY, VALUE>::size() {
+    return number_of_elements;
+}
+
+
+template<class KEY, class VALUE>
 void Dictionary<KEY, VALUE>::clear() {
     for (int i = 0; i < bucket_array_size; ++i) {
         this->bucket_array[i] = nullptr;
     }
+    number_of_elements = 0;
 }
 
 
