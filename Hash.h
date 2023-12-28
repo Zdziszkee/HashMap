@@ -38,6 +38,6 @@ inline unsigned int hash(const long long& key) {
 
 template<>
 inline unsigned int hash(const char& key) {
-    return strip_sign_bit(key);
+    return strip_sign_bit((key - 'a'));
 }
 #endif //HASH_HPP
