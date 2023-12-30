@@ -15,7 +15,7 @@ template<class KEY, class VALUE>
 class Dictionary {
 private:
     std::list<std::pair<KEY, VALUE>>* bucket_array;
-    size_t bucket_array_size{};
+    unsigned int bucket_array_size{};
     size_t number_of_elements{};
 
 public:
@@ -23,7 +23,7 @@ public:
      * Constructor
      * @size should be the power of 2, so we can use bitwise operator &
      */
-    explicit Dictionary(size_t size);
+    explicit Dictionary(unsigned int size);
 
     /**
      *  Clears dictionary
@@ -97,7 +97,7 @@ void Dictionary<KEY, VALUE>::buckets() {
 }
 
 template<class KEY, class VALUE>
-Dictionary<KEY, VALUE>::Dictionary(size_t size) {
+Dictionary<KEY, VALUE>::Dictionary(unsigned int size) {
     this->bucket_array_size = size;
     this->bucket_array = new std::list<std::pair<KEY, VALUE>>[size]{std::list<std::pair<KEY, VALUE>>()};
 }
@@ -105,17 +105,17 @@ Dictionary<KEY, VALUE>::Dictionary(size_t size) {
 template<class KEY, class VALUE>
 bool Dictionary<KEY, VALUE>::insert(const std::pair<KEY, VALUE>& pair) {
     const auto& key = pair.first;
-    const auto index = hash(key) % bucket_array_size;
+    const auto index = hash(key) & (bucket_array_size-1);
     auto& bucket = bucket_array[index];
-    erase(key);
+    const bool result = !erase(key);
     bucket.push_back(pair);
     number_of_elements++;
-    return true;
+    return result;
 }
 
 template<class KEY, class VALUE>
 bool Dictionary<KEY, VALUE>::find(const KEY& key) {
-    const auto index = hash(key) % bucket_array_size;
+    const auto index = hash(key) & (bucket_array_size-1);
     auto& bucket = bucket_array[index];
     for (auto& element: bucket) {
         auto& first = element.first;
@@ -128,7 +128,7 @@ bool Dictionary<KEY, VALUE>::find(const KEY& key) {
 
 template<class KEY, class VALUE>
 bool Dictionary<KEY, VALUE>::erase(const KEY& key) {
-    const auto index = hash(key) % bucket_array_size;
+    const auto index = hash(key) & (bucket_array_size-1);
     auto& bucket = bucket_array[index];
     for (auto& element: bucket) {
         auto& first = element.first;
@@ -143,7 +143,7 @@ bool Dictionary<KEY, VALUE>::erase(const KEY& key) {
 
 template<class KEY, class VALUE>
 VALUE& Dictionary<KEY, VALUE>::operator[](const KEY& key) {
-    const auto index = hash(key) % bucket_array_size;
+    const auto index = hash(key) & (bucket_array_size-1);
     auto& bucket = bucket_array[index];
     for (auto& element: bucket) {
         auto& first = element.first;

@@ -22,7 +22,7 @@ int main(int arguments_size, char** arguments) {
         std::cerr << "Error opening file!" << std::endl;
         return 1; // Return an error code
     }
-    Dictionary<std::string, std::string> dictionary(1000);
+    Dictionary<std::string, std::string> dictionary(1024);
     // Read the file line by line
     std::string first;
     std::string second;
