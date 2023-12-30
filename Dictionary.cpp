@@ -6,11 +6,8 @@
 #include <vector>
 
 int main(int arguments_size, char** arguments) {
-    std::unordered_map<int,int> map;
-    int result = map[1];
-    std::unordered_map<int, int>::iterator pair = map.find(1);
-    std::cout<<result<<std::endl;
-    /*
+
+
     if (arguments_size != 2) {
         std::cout << "Wrong number of arguments!" << std::endl;
         std::exit(EXIT_FAILURE);
@@ -52,5 +49,5 @@ int main(int arguments_size, char** arguments) {
     // Close the file
     std::cout << "Hello, World!" << std::endl;
     return 0;
-    */
+
 }

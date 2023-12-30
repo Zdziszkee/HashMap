@@ -6,6 +6,7 @@
 #define DICTIONARY_HPP
 
 #include <iostream>
+#include <list>
 
 #include "Hash.hpp"
 #include "LinkedList.hpp"
@@ -13,7 +14,7 @@
 template<class KEY, class VALUE>
 class Dictionary {
 private:
-    LinkedList<std::pair<KEY, VALUE>>* bucket_array{};
+    std::list<std::pair<KEY, VALUE>>* bucket_array;
     size_t bucket_array_size{};
     size_t number_of_elements{};
 
@@ -98,7 +99,7 @@ void Dictionary<KEY, VALUE>::buckets() {
 template<class KEY, class VALUE>
 Dictionary<KEY, VALUE>::Dictionary(size_t size) {
     this->bucket_array_size = size;
-    this->bucket_array = new LinkedList<VALUE>[size]{new LinkedList<VALUE>()};
+    this->bucket_array = new std::list<std::pair<KEY,VALUE>>[size]{ std::list<std::pair<KEY,VALUE>>()};
 }
 
 template<class KEY, class VALUE>
@@ -136,6 +137,7 @@ bool Dictionary<KEY, VALUE>::erase(const KEY& key) {
         if (first == key) {
             bucket.remove(element);
             return true;
+            number_of_elements--;
         }
     }
     return false;
@@ -144,16 +146,16 @@ bool Dictionary<KEY, VALUE>::erase(const KEY& key) {
 template<class KEY, class VALUE>
 VALUE& Dictionary<KEY, VALUE>::operator[](const KEY& key) {
     const auto index = hash(key) % bucket_array_size;
-    auto bucket = bucket_array[index];
-    for (auto element: bucket) {
+    auto& bucket = bucket_array[index];
+    for (auto& element: bucket) {
         auto first = element.first;
         if (first == key) {
             return element.second;
         }
     }
-    VALUE value = VALUE{};
-    bucket.push_back(key,value);
-    return value;
+    number_of_elements++;
+    bucket.push_back(std::pair(key,VALUE{}));
+    return bucket.back().second;
 }
 
 template<class KEY, class VALUE>
