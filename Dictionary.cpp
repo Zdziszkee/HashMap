@@ -46,8 +46,5 @@ int main(int arguments_size, char** arguments) {
             std::cout << "-" << std::endl;
         }
     }
-    // Close the file
-    std::cout << "Hello, World!" << std::endl;
     return 0;
-
 }
