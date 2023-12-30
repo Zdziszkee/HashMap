@@ -18,6 +18,11 @@ private:
     unsigned int bucket_array_size{};
     size_t number_of_elements{};
 
+    std::list<std::pair<KEY, VALUE>>& get_bucket_for_key(const KEY& key) {
+        const auto index = hash(key) & (bucket_array_size - 1);
+        return bucket_array[index];
+    }
+
 public:
     /**
      * Constructor
@@ -105,8 +110,7 @@ Dictionary<KEY, VALUE>::Dictionary(unsigned int size) {
 template<class KEY, class VALUE>
 bool Dictionary<KEY, VALUE>::insert(const std::pair<KEY, VALUE>& pair) {
     const auto& key = pair.first;
-    const auto index = hash(key) & (bucket_array_size-1);
-    auto& bucket = bucket_array[index];
+    auto& bucket = get_bucket_for_key(key);
     const bool result = !erase(key);
     bucket.push_back(pair);
     number_of_elements++;
@@ -115,8 +119,8 @@ bool Dictionary<KEY, VALUE>::insert(const std::pair<KEY, VALUE>& pair) {
 
 template<class KEY, class VALUE>
 bool Dictionary<KEY, VALUE>::find(const KEY& key) {
-    const auto index = hash(key) & (bucket_array_size-1);
-    auto& bucket = bucket_array[index];
+    auto& bucket = get_bucket_for_key(key);
+
     for (auto& element: bucket) {
         auto& first = element.first;
         if (first == key) {
@@ -128,8 +132,7 @@ bool Dictionary<KEY, VALUE>::find(const KEY& key) {
 
 template<class KEY, class VALUE>
 bool Dictionary<KEY, VALUE>::erase(const KEY& key) {
-    const auto index = hash(key) & (bucket_array_size-1);
-    auto& bucket = bucket_array[index];
+    auto& bucket = get_bucket_for_key(key);
     for (auto& element: bucket) {
         auto& first = element.first;
         if (first == key) {
@@ -143,8 +146,8 @@ bool Dictionary<KEY, VALUE>::erase(const KEY& key) {
 
 template<class KEY, class VALUE>
 VALUE& Dictionary<KEY, VALUE>::operator[](const KEY& key) {
-    const auto index = hash(key) & (bucket_array_size-1);
-    auto& bucket = bucket_array[index];
+    auto& bucket = get_bucket_for_key(key);
+
     for (auto& element: bucket) {
         auto& first = element.first;
         if (first == key) {
