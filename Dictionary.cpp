@@ -2,8 +2,15 @@
 
 #include <fstream>
 #include <iostream>
+#include <unordered_map>
+#include <vector>
 
 int main(int arguments_size, char** arguments) {
+    std::unordered_map<int,int> map;
+    int result = map[1];
+    std::unordered_map<int, int>::iterator pair = map.find(1);
+    std::cout<<result<<std::endl;
+    /*
     if (arguments_size != 2) {
         std::cout << "Wrong number of arguments!" << std::endl;
         std::exit(EXIT_FAILURE);
@@ -26,6 +33,7 @@ int main(int arguments_size, char** arguments) {
         inputFile >> second;
         dictionary.insert(std::pair(first, second));
     }
+    inputFile.close();
 
     std::vector<std::string> keys;
     std::string key;
@@ -42,7 +50,7 @@ int main(int arguments_size, char** arguments) {
         }
     }
     // Close the file
-    inputFile.close();
     std::cout << "Hello, World!" << std::endl;
     return 0;
+    */
 }

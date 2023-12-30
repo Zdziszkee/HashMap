@@ -151,7 +151,9 @@ VALUE& Dictionary<KEY, VALUE>::operator[](const KEY& key) {
             return element.second;
         }
     }
-    return nullptr;
+    VALUE value = VALUE{};
+    bucket.push_back(key,value);
+    return value;
 }
 
 template<class KEY, class VALUE>
