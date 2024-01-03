@@ -14,11 +14,11 @@
 template<class KEY, class VALUE>
 class Dictionary {
 private:
-    std::list<std::pair<KEY, VALUE>>* bucket_array;
+    LinkedList<std::pair<KEY, VALUE>>* bucket_array;
     unsigned int bucket_array_size{};
     size_t number_of_elements{};
 
-    std::list<std::pair<KEY, VALUE>>& get_bucket_for_key(const KEY& key) {
+    LinkedList<std::pair<KEY, VALUE>>& get_bucket_for_key(const KEY& key) {
         const auto index = hash(key) & (bucket_array_size - 1);
         return bucket_array[index];
     }
@@ -104,7 +104,7 @@ void Dictionary<KEY, VALUE>::buckets() {
 template<class KEY, class VALUE>
 Dictionary<KEY, VALUE>::Dictionary(unsigned int size) {
     this->bucket_array_size = size;
-    this->bucket_array = new std::list<std::pair<KEY, VALUE>>[size]{std::list<std::pair<KEY, VALUE>>()};
+    this->bucket_array = new LinkedList<std::pair<KEY, VALUE>>[size]{LinkedList<std::pair<KEY, VALUE>>()};
 }
 
 template<class KEY, class VALUE>
@@ -112,7 +112,7 @@ bool Dictionary<KEY, VALUE>::insert(const std::pair<KEY, VALUE>& pair) {
     const auto& key = pair.first;
     auto& bucket = get_bucket_for_key(key);
     const bool result = !erase(key);
-    bucket.push_back(pair);
+    bucket.push_back(std::pair(pair.first,pair.second));
     number_of_elements++;
     return result;
 }
@@ -156,7 +156,7 @@ VALUE& Dictionary<KEY, VALUE>::operator[](const KEY& key) {
     }
     number_of_elements++;
     bucket.push_back(std::pair(key, VALUE{}));
-    return bucket.back().second;
+    return (bucket.end().current->value.second);
 }
 
 template<class KEY, class VALUE>

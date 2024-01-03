@@ -6,8 +6,6 @@
 #include <vector>
 
 int main(int arguments_size, char** arguments) {
-
-
     if (arguments_size != 2) {
         std::cout << "Wrong number of arguments!" << std::endl;
         std::exit(EXIT_FAILURE);
@@ -38,6 +36,9 @@ int main(int arguments_size, char** arguments) {
     while (std::cin >> key) {
         keys.push_back(key);
     }
+    dictionary.buckets();
+
+
     for (const auto& element: keys) {
         if (dictionary.find(element)) {
             std::string value = dictionary[element];
@@ -46,5 +47,6 @@ int main(int arguments_size, char** arguments) {
             std::cout << "-" << std::endl;
         }
     }
+
     return 0;
 }

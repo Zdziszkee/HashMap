@@ -49,7 +49,7 @@ public:
     }
 
     LinkedList() {
-        this->guard = new Node(std::forward<T>(nullptr), nullptr, nullptr);
+        this->guard = new Node(T{}, nullptr, nullptr);
         this->guard->next = this->guard;
         this->guard->previous = this->guard;
     }
@@ -160,7 +160,7 @@ public:
     }
 
     Iterator erase(Iterator iterator) {
-        LinkedList<T>::Iterator next = iterator.current->next;
+        LinkedList<T>::Iterator next = ++iterator;
         this->popBetween(iterator.current->previous, iterator.current->next);
         return next;
     }

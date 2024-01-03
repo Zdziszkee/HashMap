@@ -23,6 +23,7 @@ inline unsigned int hash(const std::string& key) {
             hash = 31 * hash + (key[i] - 'a');
         }
     }
+
     return strip_sign_bit(hash);
 }
 
