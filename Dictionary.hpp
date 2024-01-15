@@ -9,16 +9,15 @@
 #include <list>
 
 #include "Hash.hpp"
-#include "LinkedList.hpp"
 
 template<class KEY, class VALUE>
 class Dictionary {
 private:
-    LinkedList<std::pair<KEY, VALUE>>* bucket_array;
+    std::list<std::pair<KEY, VALUE>>* bucket_array;
     unsigned int bucket_array_size{};
     size_t number_of_elements{};
 
-    LinkedList<std::pair<KEY, VALUE>>& get_bucket_for_key(const KEY& key) {
+    std::list<std::pair<KEY, VALUE>>& get_bucket_for_key(const KEY& key) {
         const auto index = hash(key) & (bucket_array_size - 1);
         return bucket_array[index];
     }
@@ -104,7 +103,7 @@ void Dictionary<KEY, VALUE>::buckets() {
 template<class KEY, class VALUE>
 Dictionary<KEY, VALUE>::Dictionary(unsigned int size) {
     this->bucket_array_size = size;
-    this->bucket_array = new LinkedList<std::pair<KEY, VALUE>>[size]{LinkedList<std::pair<KEY, VALUE>>()};
+    this->bucket_array = new std::list<std::pair<KEY, VALUE>>[size]{std::list<std::pair<KEY, VALUE>>()};
 }
 
 template<class KEY, class VALUE>
@@ -156,7 +155,7 @@ VALUE& Dictionary<KEY, VALUE>::operator[](const KEY& key) {
     }
     number_of_elements++;
     bucket.push_back(std::pair(key, VALUE{}));
-    return (bucket.end().current->value.second);
+    return (bucket.back().second);
 }
 
 template<class KEY, class VALUE>

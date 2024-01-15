@@ -12,16 +12,14 @@ int main(int arguments_size, char** arguments) {
         return 1;
     }
     const char* file_name = arguments[1];
-    // Open a file for reading
     std::ifstream inputFile(file_name);
 
-    // Check if the file is opened successfully
     if (!inputFile.is_open()) {
         std::cerr << "Error opening file!" << std::endl;
-        return 1; // Return an error code
+        return 1;
     }
     Dictionary<std::string, std::string> dictionary(1024);
-    // Read the file line by line
+
     std::string first;
     std::string second;
     while (inputFile >> first) {
@@ -36,8 +34,6 @@ int main(int arguments_size, char** arguments) {
     while (std::cin >> key) {
         keys.push_back(key);
     }
-    dictionary.buckets();
-
 
     for (const auto& element: keys) {
         if (dictionary.find(element)) {

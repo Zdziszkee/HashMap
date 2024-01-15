@@ -5,5 +5,4 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Zestaw07 Dictionary.cpp
         Dictionary.hpp
-        LinkedList.hpp
         Hash.hpp)
